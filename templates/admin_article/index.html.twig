@@ -1,0 +1,62 @@
+
+
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Affaire index{% endblock %}
+
+{% block body %}
+    <h1>Affaire liste</h1>
+
+<div>
+<form>
+<input type="search" name="search" ="Recherche..."/>
+
+<button type="submit"> Recherhcer </button>
+
+</form>
+</div>
+
+
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Compte_c6</th>
+                <th>Phase</th>
+                <th>Journalaffiare</th>
+                <th>Date_de_debut</th>
+                <th>Date_de_fin</th>
+                <th>Echeance</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for affaire in affaires %}
+            <tr>
+                <td>{{ affaire.id }}</td>
+                <td>{{ affaire.title }}</td>
+                <td>{{ affaire.compteC6 }}</td>
+                <td>{{ affaire.phase }}</td>
+                <td>{{ affaire.journalaffiare }}</td>
+                <td>{{ affaire.dateDeDebut ? affaire.dateDeDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ affaire.dateDeFin ? affaire.dateDeFin|date('Y-m-d') : '' }}</td>
+                <td>{{ affaire.echeance ? affaire.echeance|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_article_show', {'id': affaire.id}) }}">show</a>
+                    <a href="{{ path('app_admin_article_edit', {'id': affaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_article_new') }}">Create new</a>
+{% endblock %}
+

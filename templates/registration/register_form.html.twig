@@ -1,0 +1,32 @@
+
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('style/register_form.css') }}">
+{% endblock %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <a class="singup">Sign Up</a>
+            <div class="inputBox1">
+                <input type="text" required="required" name="{{ registrationForm.email.vars.full_name }}">
+                <span class="user">Email</span>
+            </div>
+
+            <div class="inputBox">
+                <input type="text" required="required" name="{{ registrationForm.username.vars.full_name }}">
+                <span>Username</span>
+            </div>
+
+            <div class="inputBox">
+                <input type="password" required="required" name="{{ registrationForm.plainPassword.vars.full_name }}">
+                <span>Password</span>
+            </div>
+
+            <button class="enter" type="submit">Enter</button>
+        </div>
+    </div>
+{% endblock %}

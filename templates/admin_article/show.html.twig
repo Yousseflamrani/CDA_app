@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affaire{% endblock %}
+
+{% block body %}
+    <h1>Affaire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ affaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ affaire.title }}</td>
+            </tr>
+            <tr>
+                <th>Compte_c6</th>
+                <td>{{ affaire.compteC6 }}</td>
+            </tr>
+            <tr>
+                <th>Phase</th>
+                <td>{{ affaire.phase }}</td>
+            </tr>
+            <tr>
+                <th>Journalaffiare</th>
+                <td>{{ affaire.journalaffiare }}</td>
+            </tr>
+            <tr>
+                <th>Date_de_debut</th>
+                <td>{{ affaire.dateDeDebut ? affaire.dateDeDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_de_fin</th>
+                <td>{{ affaire.dateDeFin ? affaire.dateDeFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Echeance</th>
+                <td>{{ affaire.echeance ? affaire.echeance|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_article_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_article_edit', {'id': affaire.id}) }}">edit</a>
+
+    {{ include('admin_article/_delete_form.html.twig') }}
+{% endblock %}
