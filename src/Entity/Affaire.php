@@ -46,6 +46,8 @@ class Affaire
     #[ORM\ManyToMany(targetEntity: Section::class, inversedBy: 'affaires')]
     private Collection $section;
 
+   
+
     public function __construct()
     {
         $this->user = new ArrayCollection();

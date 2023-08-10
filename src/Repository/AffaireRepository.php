@@ -44,34 +44,44 @@ class AffaireRepository extends ServiceEntityRepository
 /**
  * @Route("/show/{id}", name="affaire_show", methods={"GET"})
  */
-public function show(AffaireRepository $affaireRepository, $id)
+public function filterAffaires(?User $user = null, ?Section $section = null, ?string $compte_c6 = null, ?string $search = null)
 {
-    $affaire = $affaireRepository->find($id);
+    $qb = $this->createQueryBuilder('a');
 
-    if (!$affaire) {
-        throw $this->createNotFoundException(
-            'Aucune affaire trouvée pour cet id : '.$id
-        );
+    if ($user) {
+        $qb->innerJoin('a.user', 'u')
+           ->andWhere('u = :user')
+           ->setParameter('user', $user);
     }
 
-    return $this->render('admin_article/show.html.twig', ['affaire' => $affaire]);
+    if ($section) {
+        $qb->innerJoin('a.section', 's')
+           ->andWhere('s = :section')
+           ->setParameter('section', $section);
+    }
+
+    if ($compte_c6) {
+        $qb->andWhere('a.compte_c6 LIKE :compte_c6')
+           ->setParameter('compte_c6','%'. $compte_c6 . '%') ;
+    }
+
+    if ($search) {
+        $qb->andWhere('a.title LIKE :search')
+           ->setParameter('search', '%' . $search . '%');
+    }
+
+    return $qb->getQuery()->getResult();
 }
 
 
-   /**
-    * @return Affaire[] Returns an array of Affaire objects
-    */
-    public function findBySearch($search)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.title LIKE :val')
-            ->setParameter('val', '%' . $search . '%')
-            ->getQuery()
-            ->getResult();
-    }
-    
-   
-
+public function findBySearch($search)
+{
+    return $this->createQueryBuilder('a')
+        ->andWhere('a.title LIKE :val')
+        ->setParameter('val', '%' . $search . '%')
+        ->getQuery()
+        ->getResult();
+}
 
 
 

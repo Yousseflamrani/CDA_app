@@ -7,6 +7,16 @@
 
 {% block body %}
     <h1>Affaire liste</h1>
+    <div>
+    {{ form_start(form) }}
+        {{ form_row(form.section) }}
+        {{ form_row(form.user) }}
+        {{ form_row(form.compte_c6) }}
+        <button type="submit">Filter</button>
+    {{ form_end(form) }}
+</div>
+
+
 
 <div>
 <form>
