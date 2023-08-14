@@ -3,29 +3,21 @@
 {% extends 'base.html.twig' %}
 
 
+
+
 {% block title %}Affaire index{% endblock %}
 
 {% block body %}
     <h1>Affaire liste</h1>
-    <div>
+    <div class="custom-form">
     {{ form_start(form) }}
-        {{ form_row(form.section) }}
-        {{ form_row(form.user) }}
-        {{ form_row(form.compte_c6) }}
-        <button type="submit">Filter</button>
+        <div class="form-element">{{ form_row(form.section) }}</div>
+        <div class="form-element">{{ form_row(form.user) }}</div>
+        <div class="form-element">{{ form_row(form.compte_c6) }}</div>
+        <div class="form-element"><button type="submit">Filter</button></div>
     {{ form_end(form) }}
 </div>
 
-
-
-<div>
-<form>
-<input type="search" name="search" ="Recherche..."/>
-
-<button type="submit"> Recherhcer </button>
-
-</form>
-</div>
 
 
     
@@ -40,13 +32,18 @@
                 <th>Date_de_debut</th>
                 <th>Date_de_fin</th>
                 <th>Echeance</th>
+                <th>statut</th>
+                 <th>user</th>
                 <th>actions</th>
+                
             </tr>
         </thead>
         <tbody>
         {% for affaire in affaires %}
             <tr>
                 <td>{{ affaire.id }}</td>
+             
+                
                 <td>{{ affaire.title }}</td>
                 <td>{{ affaire.compteC6 }}</td>
                 <td>{{ affaire.phase }}</td>
@@ -54,6 +51,9 @@
                 <td>{{ affaire.dateDeDebut ? affaire.dateDeDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ affaire.dateDeFin ? affaire.dateDeFin|date('Y-m-d') : '' }}</td>
                 <td>{{ affaire.echeance ? affaire.echeance|date('Y-m-d') : '' }}</td>
+                   <td>{{ affaire.statut }}</td>
+           
+                
                 <td>
                     <a href="{{ path('app_admin_article_show', {'id': affaire.id}) }}">show</a>
                     <a href="{{ path('app_admin_article_edit', {'id': affaire.id}) }}">edit</a>

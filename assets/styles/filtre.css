@@ -1,0 +1,14 @@
+.custom-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-element {
+    margin-right: 10px;
+    flex-grow: 1; 
+}
+
+.form-element:last-child {
+    margin-right: 0; 
+}

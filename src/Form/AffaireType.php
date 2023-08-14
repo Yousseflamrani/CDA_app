@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AffaireType extends AbstractType
 {
@@ -19,6 +20,8 @@ class AffaireType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('user')
+            ->add('responsable')
             ->add('compte_c6')
             ->add('phase')
             ->add('journalaffiare')
@@ -30,19 +33,17 @@ class AffaireType extends AbstractType
                 'constraints'=> new Callback([$this, 'validateEcheance' ]),
             ])
 
-            ->add('user')
-            ->add('responsable')
-            ->add('sections',EntityType::class,[
-                'class'=>Section::class,
-                'choice_label' => 'name',
-                'multiple'=>true,
-                'expanded'=>true,
-                
+            ->add('statut',ChoiceType::class,[
+                'choices'=> [
+                    'Ouvert' => 'ouvert',
+                    'Fermer' => 'fermer',
+                    'Annuler' => 'annuler',
+                ],
+            ])
 
 
 
-
-            ]);
+            ;
        
     }
 

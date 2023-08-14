@@ -21,7 +21,7 @@ class AffaireFilterType extends AbstractType
 
         ->add('user',EntityType::class,[
             'class'=>User::class,
-            'choice_label'=>'email',
+            'choice_label'=>'username',
             'required'=>true,
 
         ])

@@ -10,7 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AffaireRepository::class)]
 class Affaire
+
 {
+    //les constantes pour les statut 
+    const STATUT_OUVERT = 'ouvert';
+    const STATUT_FERMER = 'fermer';
+    const STATUT_ANNULER = 'annuler';
+
+
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,6 +33,9 @@ class Affaire
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phase = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $statut = null;
 
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $journalaffiare = null;
@@ -94,6 +106,18 @@ class Affaire
 
         return $this;
     }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
+        return $this;
+    }
+
 
     public function getJournalaffiare(): ?string
     {

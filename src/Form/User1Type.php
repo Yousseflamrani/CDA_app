@@ -13,11 +13,16 @@ class User1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+             ->add('username')
+
             ->add('email')
+            
+            
             ->add('plainPassword',TextType::class,[
 
                 'mapped'=>false
             ])
+            ->add('section')
         ;
     }
 
