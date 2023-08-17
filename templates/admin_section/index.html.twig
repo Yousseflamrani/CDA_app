@@ -10,7 +10,9 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>responsable</th>
                 <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -18,6 +20,14 @@
             <tr>
                 <td>{{ section.id }}</td>
                 <td>{{ section.Name }}</td>
+                <td>
+            {% if section.responsable %}
+                {{ section.responsable.name }} {# Adaptez ".name" si la propriété du responsable est différente #}
+            {% else %}
+                Pas de responsable
+            {% endif %}
+            </td>
+
                 <td>
                     <a href="{{ path('app_admin_section_show', {'id': section.id}) }}">show</a>
                     <a href="{{ path('app_admin_section_edit', {'id': section.id}) }}">edit</a>

@@ -5,20 +5,234 @@
 
 
 
+
 {% block title %}Affaire index{% endblock %}
 
 {% block body %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+
+
+{% block stylesheets %}
+    <style>
+        .custom-form {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e1e1e1;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .form-element {
+            margin-bottom: 15px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px 15px;
+            border: 1px solid #e1e1e1;
+        }
+
+        .table thead th {
+            background-color: #007BFF;
+            color: #ffffff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f6f6f6;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        button, a.button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover, a.button:hover {
+            background-color: #0056b3;
+        }
+
+        a.button {
+            display: inline-block; 
+            text-align: center;
+        }
+
+        .filter-form {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-element {
+        margin-right: 15px;
+    }
+     button[name="reset_filter"] {
+        background-color: #f44336; 
+        float: right 20px;
+    }
+    .btn-create {
+    background-color: #4CAF50; /* Vert */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    float: right;
+}
+
+.btn-create:hover {
+    background-color: #45a049;
+   
+   
+}
+ .custom-margin-top {
+     margin-bottom: 20px; /* Ajoutez la marge supérieure souhaitée */
+      margin-top:-10px;
+        }
+
+
+/* Styles pour le bouton 'Edit' */
+.btn-edit {
+ --color: #00A97F;
+ --color2: rgb(10, 25, 30);
+ padding: 0.8em 1.75em;
+ background-color: transparent;
+ border-radius: 6px;
+ border: .3px solid var(--color);
+ transition: .5s;
+ position: relative;
+ overflow: hidden;
+ cursor: pointer;
+ z-index: 1;
+ font-weight: 300;
+ font-size: 17px;
+ font-family: 'Roboto', 'Segoe UI', sans-serif;
+ text-transform: uppercase;
+ color: var(--color);
+}
+.btn-edit::after, .btn-edit::before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: skew(90deg) translate(-50%, -50%);
+    position: absolute;
+    inset: 50%;
+    left: 25%;
+    z-index: -1;
+    transition: .5s ease-out;
+    background-color: var(--color);
+}
+.btn-edit::before {
+    top: -50%;
+    left: -25%;
+    transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btn-edit:hover::before {
+ transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+}
+.btn-edit:hover::after {
+ transform: skew(45deg) translate(-50%, -50%);
+}
+
+
+.btn-edit:hover {
+   color: var(--color2);
+}
+.btn-edit:active {
+ filter: brightness(.7);
+ transform: scale(.98);
+}
+
+/* Styles pour le bouton 'Show' */
+.btn-show {
+    background-color: #2196F3; /* Bleu */
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-left: 10px; /* espace entre les boutons */
+}
+
+.btn-show:hover {
+    background-color: #1976D2;
+}
+.action-buttons {
+   display: flex;
+   align-items: center;
+        }
+
+.action-buttons a {
+    margin-right: 10px; /* Espacement entre les boutons */
+        }
+        
+
+
+
+
+
+    
+    </style>
+{% endblock %}
+
+
+
+
+
+</style>
     <h1>Affaire liste</h1>
     <div class="custom-form">
-    {{ form_start(form) }}
+    {{ form_start (form, {'attr': {'class': 'filter-form'}}) }}
         <div class="form-element">{{ form_row(form.section) }}</div>
         <div class="form-element">{{ form_row(form.user) }}</div>
         <div class="form-element">{{ form_row(form.compte_c6) }}</div>
+      
+        
         <div class="form-element"><button type="submit">Filter</button></div>
-    {{ form_end(form) }}
+        <div class="form-element">
+    <button type="submit" name="reset_filter" value="reset">Réinitialiser les filtres</button>
+</div>
+
+    {{ form_end ( form) }}
+</div>
 </div>
 
 
+ <a href="{{ path('app_admin_article_new') }}" class="btn btn-create custom-margin-top">Create New</a>
+
+<div class="row">
+    <!-- Barre de recherche à gauche -->
+    <div class="col-md-4">
+        <form class="d-flex" role="search" action="{{path('app_admin_article_index')}}" method="GET">
+            <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Tableau à droite -->
+    <div class="col-md-8">
+        {# Votre tableau ici #}
+    </div>
+</div>
 
     
     <table class="table">
@@ -28,12 +242,13 @@
                 <th>Title</th>
                 <th>Compte_c6</th>
                 <th>Phase</th>
-                <th>Journalaffiare</th>
+                <th>Section</th>
                 <th>Date_de_debut</th>
                 <th>Date_de_fin</th>
                 <th>Echeance</th>
+                <th>journal d'affaire</th>
                 <th>statut</th>
-                 <th>user</th>
+                 <th>users</th>
                 <th>actions</th>
                 
             </tr>
@@ -42,23 +257,36 @@
         {% for affaire in affaires %}
             <tr>
                 <td>{{ affaire.id }}</td>
-             
-                
                 <td>{{ affaire.title }}</td>
                 <td>{{ affaire.compteC6 }}</td>
                 <td>{{ affaire.phase }}</td>
-                <td>{{ affaire.journalaffiare }}</td>
+                <td>
+                    {% for section in affaire.sections %}
+                    {{ section.name }}
+                    {% endfor %}
+                </td>
                 <td>{{ affaire.dateDeDebut ? affaire.dateDeDebut|date('Y-m-d') : '' }}</td>
                 <td>{{ affaire.dateDeFin ? affaire.dateDeFin|date('Y-m-d') : '' }}</td>
                 <td>{{ affaire.echeance ? affaire.echeance|date('Y-m-d') : '' }}</td>
-                   <td>{{ affaire.statut }}</td>
-           
+                <td>{{ affaire.journalaffiare }}</td>
+                <td>{{ affaire.statut }}</td>
+                <td>
+                    {% for user in affaire.user %}
+                        {{ user.username }}
+                        {# Add a comma if it's not the last user in the list #}
+                        {% if not loop.last %}, {% endif %}
+                    {% else %}
+                        No users
+                    {% endfor %}
+                </td>
                 
                 <td>
-                    <a href="{{ path('app_admin_article_show', {'id': affaire.id}) }}">show</a>
-                    <a href="{{ path('app_admin_article_edit', {'id': affaire.id}) }}">edit</a>
-                </td>
-            </tr>
+                    <div class="action-buttons">
+                        <a href="{{ path('app_admin_article_show', {id: affaire.id}) }}" class="btn btn-show">Show</a>
+                        <a href="{{ path('app_admin_article_edit', {id: affaire.id}) }}" class="btn btn-edit">Edit</a>
+                    </div>
+                </td
+                    </tr>
         {% else %}
             <tr>
                 <td colspan="9">no records found</td>
@@ -66,7 +294,9 @@
         {% endfor %}
         </tbody>
     </table>
+   
 
-    <a href="{{ path('app_admin_article_new') }}">Create new</a>
+
+    
 {% endblock %}
 

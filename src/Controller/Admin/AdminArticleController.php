@@ -31,6 +31,10 @@ class AdminArticleController extends AbstractController
         $search = $request->query->get('search');
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($request->request->has('reset_filter')) {  // Check if reset button was pressed
+                return $this->redirectToRoute('app_admin_article_index'); // Redirect to the same route without filters
+            }
+            
             $data = $form->getData();
             // Filter using the combined method
             $affaires = $affaireRepository->filterAffaires($data['user'], $data['section'], $data['compte_c6'], $data['search'] ?? null);

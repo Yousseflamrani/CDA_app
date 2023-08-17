@@ -64,6 +64,7 @@ public function filterAffaires(?User $user = null, ?Section $section = null, ?st
         $qb->andWhere('a.compte_c6 LIKE :compte_c6')
            ->setParameter('compte_c6','%'. $compte_c6 . '%') ;
     }
+   
 
     if ($search) {
         $qb->andWhere('a.title LIKE :search')
@@ -82,6 +83,8 @@ public function findBySearch($search)
         ->getQuery()
         ->getResult();
 }
+
+   
 
 
 

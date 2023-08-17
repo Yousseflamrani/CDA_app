@@ -164,16 +164,13 @@ body {
       </div>
       <a href="/contact" class="nav-item nav-link">Contact</a>
     </div>
-   <form class="d-flex" role="search" action="{{path('app_admin_article_index')}}" method="GET">
-        <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+   
 
     <div class="navbar-nav ml-auto">
       <a href="#" class="nav-item nav-link notifications"><i class="fa fa-bell-o"></i><span class="badge">1</span></a>
       <a href="#" class="nav-item nav-link messages"><i class="fa fa-envelope-o"></i><span class="badge">10</span></a></a>
       <div class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">  {{ app.user ? app.user.email|default('Invité') : 'Invité' }}
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">  {{ app.user ? app.user.username|default('Invité') : 'Invité' }}
 
  <b class="caret"></b></a>
         <div class="dropdown-menu">

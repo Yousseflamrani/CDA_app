@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Affaire;
+use App\Entity\User;
 use App\Entity\Section;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,13 @@ class AffaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
+        ->add('user',EntityType::class,[
+            'class'=>User::class,
+            'choice_label'=>'username',
+            'multiple' => false,
+            'expanded' => true,
+            'required'=>true,
+        ])
             ->add('user')
             ->add('responsable')
             ->add('compte_c6')

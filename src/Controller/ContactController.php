@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
-
+namespace App\Controller;
 use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
@@ -21,7 +20,6 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $address = $form->get('email')->getData();
             $sujet = $form->get('sujet')->getData();
             $content = $form->get('content')->getData();
@@ -30,16 +28,9 @@ class ContactController extends AbstractController
                 ->from($address)
                 ->to('yousseflamrani2001@gmail.com')
                 ->subject($sujet)
-                ->text($content);
+                ->html($content);
 
             $mailer->send($email);
-            
-            $this->addFlash(
-                'success',
-                'Votre message a été envoyé avec succès!'
-            );
-
-            return $this->redirectToRoute('app_success_contact'); 
         }
 
         return $this->renderForm('contact/index.html.twig', [
@@ -47,17 +38,5 @@ class ContactController extends AbstractController
             'form' => $form,
         ]);
     }
-     #[Route('/success/contact', name: 'app_success_contact')]
-     public function success(): Response
-     {
-         return $this->render('success_contact/index.html.twig', [
-             'controller_name' => 'SuccessContactController',
-         ]);
-     }
-
-
-
-
-    
 }
 

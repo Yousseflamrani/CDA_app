@@ -35,10 +35,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    private ?string $affaires = null;
    
    /**
-    * @ORM\Column(type="string", length=255, nullable=true)
-    */
-   
-   private ?string $section = null;
+     * @ORM\ManyToOne(targetEntity=Section::class)
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Section $section = null;
+
 
    /**
      * @ORM\Column(type="boolean")
@@ -160,16 +161,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-    public function getSection(): ?string
+    public function getSection(): ?Section
     {
         return $this->section;
     }
-
-    public function setSection(?string $section): self
+    
+    public function setSection(?Section $section): self
     {
         $this->section = $section;
-
         return $this;
     }
 

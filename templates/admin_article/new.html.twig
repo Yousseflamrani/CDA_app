@@ -1,14 +1,118 @@
- {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Affaire{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Vos styles spécifiques pour le formulaire ici */
+       body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .create-form {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .btn-submit {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #007BFF;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3; @media (min-width: 1200px) {
+           
+            .create-form {
+                max-width: 800px;
+            }
+        }
+        
+        }
+
+        @media (min-width: 900px) {
+           
+            .create-form {
+                max-width: 800px;
+            }
+        }
+        
+
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>Create new Affaire</h1>
+<div class="text-center"> 
+<h1>Création d'une affaire</h1>
+</div>
+   <form class="create-form" method="post">
+    {{ form_start (form) }}
     
+    <div class="form-group">
+        {{ form_label (form.user) }}
+        {{ form_widget (form.user, {'attr': {'class': 'form-control'}}) }}
+    </div>
     
 
+    
+    <div class="form-group">
+        {{ form_widget (form) }}
+        <div class="text-center"> 
+           
+            <a href="{{ path('app_admin_article_index') }}" class="back-link btn-submit">Back to list</a> 
+             <button type="submit" class="btn-submit">Create Affaire</button>
+        </div>
+    </div>
+    
+    {{ form_end(form) }}
+</form>
 
-    {{ include('admin_article/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_article_index') }}">back to list</a>
 {% endblock %}
