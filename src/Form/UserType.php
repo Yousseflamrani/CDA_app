@@ -8,6 +8,7 @@ use App\Entity\Section;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
@@ -19,10 +20,24 @@ class UserType extends AbstractType
             ->add('email')
             ->add('password')
 
-            //->add('roles')
+            ->add('roles', ChoiceType::class, [
+                'choices'  => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Responsable' => 'ROLE_RESPONSABLE',   
+                ],
+                'multiple' => true,
+                'expanded' => true, 
+            ])
+            
             ->add('plainPassword',TextType::class,[
 
                 'mapped'=>false
+            ])
+            ->add('section', EntityType::class, [
+                'class' => Section::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionnez une section',
             ])
             //->add('affaires')
             

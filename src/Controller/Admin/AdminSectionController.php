@@ -10,17 +10,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin/section')]
 class AdminSectionController extends AbstractController
 {
     #[Route('/', name: 'app_admin_section_index', methods: ['GET'])]
     public function index(SectionRepository $sectionRepository): Response
+    //GESTION DES ROLES POUR L'AFFICHAGE DES SECTION ON UTILISANT AccessDeniedException
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+        }
+    
+       
+    
     {
         return $this->render('admin_section/index.html.twig', [
             'sections' => $sectionRepository->findAll(),
         ]);
     }
+}
 
     #[Route('/new', name: 'app_admin_section_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SectionRepository $sectionRepository): Response

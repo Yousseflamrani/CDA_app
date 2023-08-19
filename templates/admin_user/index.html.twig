@@ -2,8 +2,50 @@
 
 {% block title %}User index{% endblock %}
 
+{% block stylesheets %}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styles généraux */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            padding: 10px 15px;
+            border: 1px solid #e1e1e1;
+        }
+        .table thead th {
+            background-color: #007BFF;
+            color: #ffffff;
+        }
+        .table tbody tr:hover {
+            background-color: #f6f6f6;
+        }
+
+        /* Styles pour les boutons */
+        .btn-show, .btn-edit, .btn-create {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .btn-create{
+            float:right;
+            
+        }
+        .style-tilte{
+            float:center;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>User index</h1>
+    <h1 class="style-title">Listes des utilisateurs </h1>
+
+    <a href="{{ path('app_admin_user_new') }}" class="btn btn-create">Crée un nouvel utilisateur </a>
 
     <table class="table">
         <thead>
@@ -11,11 +53,10 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>username</th>
-                
-                <th>action</th>
-                
+                <th>Username</th>
+                 <th>Section</th>
+
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,24 +65,22 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.username }}</td>
-                
-                
+                <td>{{ user.section ? user.section.id : 'N/A' }}</td>
 
-               
+
                 <td>
-                    <a href="{{ path('app_admin_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}">edit</a>
+                    <div class="action-buttons">
+                        <a href="{{ path('app_admin_user_show', {'id': user.id}) }}" class="btn btn-show">Détails</a>
+                        <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}" class="btn btn-edit">Modifier</a>
+                    </div>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_admin_user_new') }}">Create new</a>
 {% endblock %}

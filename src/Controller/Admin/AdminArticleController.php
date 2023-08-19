@@ -19,6 +19,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
+
 
 #[Route('/admin/article')]
 class AdminArticleController extends AbstractController
@@ -60,7 +64,12 @@ class AdminArticleController extends AbstractController
 
 
     #[Route('/new', name: 'app_admin_article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AffaireRepository $affaireRepository): Response
+    public function new(Request $request, AffaireRepository $affaireRepository, Security $security): Response
+    // Gestion des roles pour la creation des affaires
+    {
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_RESPONSABLE')) {
+            throw new AccessDeniedException('Vous n\'avez pas les droits nécessaires pour accéder à cette page.');
+    }
     
     {
         $affaire = new Affaire();
@@ -78,6 +87,7 @@ class AdminArticleController extends AbstractController
                 'form' => $form,
             ]);
     }
+}
 
     #[Route('/{id}', name: 'app_admin_article_show', methods: ['GET'])]
     public function show(Affaire $affaire): Response

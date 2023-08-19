@@ -46,17 +46,22 @@
         }
 
         .btn-submit {
-            padding: 10px 20px;
-            background-color: #007BFF;
+             display: inline-block;
+            padding: 10px 25px;
             color: #ffffff;
+            background-color: #007BFF;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin: 5px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         .btn-submit:hover {
             background-color: #007BFF;
+            transform: translateY(-5px);
         }
 
         .back-link {
@@ -83,16 +88,26 @@
                 max-width: 800px;
             }
         }
+        .form-title {
+    text-align: center;
+    color: #007BFF; 
+    margin-bottom: 20px; 
+    font-size: 30px; /* taille du texte */
+    border-bottom: 3px solid #007BFF; 
+    padding-bottom: 10px; 
+}
+
         
 
     </style>
 {% endblock %}
 
 {% block body %}
-<div class="text-center"> 
-<h1>Création d'une affaire</h1>
+
+
 </div>
    <form class="create-form" method="post">
+    <h2 class="form-title">Création d'une affaire</h2>
     {{ form_start (form) }}
     
     <div class="form-group">
@@ -106,8 +121,8 @@
         {{ form_widget (form) }}
         <div class="text-center"> 
            
-            <a href="{{ path('app_admin_article_index') }}" class="back-link btn-submit">Back to list</a> 
-             <button type="submit" class="btn-submit">Create Affaire</button>
+            <a href="{{ path('app_admin_article_index') }}" class="back-link btn-submit">Annuler</a> 
+             <button type="submit" class="btn-submit">Valider</button>
         </div>
     </div>
     

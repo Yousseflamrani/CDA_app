@@ -164,7 +164,7 @@
 
 /* Styles pour le bouton 'Show' */
 .btn-show {
-    background-color: #2196F3; /* Bleu */
+    background-color: purple; /* Bleu */
     color: white;
     display: inline-block;
     padding: 10px 20px;
@@ -174,7 +174,7 @@
 }
 
 .btn-show:hover {
-    background-color: #1976D2;
+    background-color: purple;
 }
 .action-buttons {
    display: flex;
@@ -186,10 +186,6 @@
         }
         
 
-
-
-
-
     
     </style>
 {% endblock %}
@@ -198,9 +194,10 @@
 
 
 
-</style>
-    <h1>Affaire liste</h1>
+
+   
     <div class="custom-form">
+     
     {{ form_start (form, {'attr': {'class': 'filter-form'}}) }}
         <div class="form-element">{{ form_row(form.section) }}</div>
         <div class="form-element">{{ form_row(form.user) }}</div>
@@ -215,9 +212,12 @@
     {{ form_end ( form) }}
 </div>
 </div>
-
-
- <a href="{{ path('app_admin_article_new') }}" class="btn btn-create custom-margin-top">Create New</a>
+<!-- Gestion des roles pour la creations des affaires -->
+{% if app.user %}
+    {% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_RESPONSABLE' in app.user.roles %}
+        <a href="{{ path('app_admin_article_new') }}" class="btn btn-create custom-margin-top">Créer une nouvelle affaire</a>
+    {% endif %}
+{% endif %}
 
 <div class="row">
     <!-- Barre de recherche à gauche -->

@@ -153,15 +153,19 @@ body {
     <div class="navbar-nav">
       <a href="/home" class="nav-item nav-link active">Dashboard</a>
       <a href="/admin/article" class="nav-item nav-link">liste des affaires</a>
-      <div class="nav-item dropdown">
+      <!-- Gestion des roles pour admin affichage de liste deroulante Admin -->
+    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+    <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin</a>
         <div class="dropdown-menu">
-          <a href="/admin/user" class="dropdown-item"> Utilisateurs</a>
-          <a href="/admin/section" class="dropdown-item"> Sections</a>
-          <a href="/admin/responsable" class="dropdown-item">Responsables</a>
-         
+            <a href="/admin/user" class="dropdown-item"> Utilisateurs</a>
+            <a href="/admin/section" class="dropdown-item"> Sections</a>
+            <a href="/admin/responsable" class="dropdown-item">Responsables</a>
         </div>
-      </div>
+    </div>
+{% endif %}
+
+
       <a href="/contact" class="nav-item nav-link">Contact</a>
     </div>
    
