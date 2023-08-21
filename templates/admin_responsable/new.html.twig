@@ -2,10 +2,94 @@
 
 {% block title %}New Responsable{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    /* Vos styles ici */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .create-form {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f7f7f7;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    .btn-submit, .back-link {
+        display: inline-block;
+        padding: 10px 25px;
+        color: #ffffff;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        margin: 5px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-submit:hover, .back-link:hover {
+        background-color: #0056b3;
+        transform: translateY(-5px);
+    }
+
+    .form-title {
+        text-align: center;
+        color: #007BFF;
+        margin-bottom: 20px;
+        font-size: 30px;
+        border-bottom: 3px solid #007BFF;
+        padding-bottom: 10px;
+    }
+
+    @media (min-width: 900px) {
+        .create-form {
+            max-width: 800px;
+        }
+    }
+
+</style>
+{% endblock %}
+
 {% block body %}
-    <h1>Create new Responsable</h1>
+<div class="create-form">
+    <h2 class="form-title">Create new Responsable</h2>
 
     {{ include('admin_responsable/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_responsable_index') }}">back to list</a>
+    <div class="text-center">
+        <a href="{{ path('app_admin_responsable_index') }}" class="back-link">Back to list</a>
+    </div>
+</div>
 {% endblock %}

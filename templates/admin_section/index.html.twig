@@ -1,45 +1,219 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Section index{% endblock %}
+{% block title %}Section index
+{% endblock %}
+{% block stylesheets %}
+	<style>
+
+
+		.custom-form {
+			margin-bottom: 30px;
+			padding: 20px;
+			border: 1px solid #e1e1e1;
+			border-radius: 5px;
+			background-color: #f9f9f9;
+		}
+
+
+		.form-element {
+			margin-bottom: 15px;
+		}
+
+		.table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		.table th,
+		.table td {
+			padding: 10px 15px;
+			border: 1px solid #e1e1e1;
+		}
+
+		.table thead th {
+			background-color: #007BFF;
+			color: #ffffff;
+		}
+
+		.table tbody tr:hover {
+			background-color: #f6f6f6;
+		}
+
+		a {
+			color: #007BFF;
+			text-decoration: none;
+			margin-right: 15px;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+		button,
+		a.button {
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			background-color: #007BFF;
+			color: #ffffff;
+			font-weight: bold;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		button:hover,
+		a.button:hover {
+			background-color: #0056b3;
+		}
+
+		a.button {
+			display: inline-block;
+			text-align: center;
+		}
+
+		.filter-form {
+			display: flex;
+			align-items: center;
+		}
+
+		.form-element {
+			margin-right: 15px;
+		}
+		button[name="reset_filter"] {
+			background-color: #f44336;
+			float: right 20px;
+		}
+		.btn-create {
+			background-color: #4CAF50; /* Vert */
+			color: white;
+			padding: 10px 20px;
+			border-radius: 5px;
+			text-decoration: none;
+			float: right;
+		}
+
+		.btn-create:hover {
+			background-color: #45a049;
+
+
+		}
+		.custom-margin-top {
+			margin-bottom: 20px; /* Ajoutez la marge supérieure souhaitée */
+			margin-top: -10px;
+		}
+
+
+		/* Styles pour le bouton 'show' */
+		.btn-show {
+			padding: 17px 40px;
+			border-radius: 50px;
+			border: 0;
+			background-color: white;
+			box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			font-size: 15px;
+			
+		}
+
+		.btn-show:hover {
+			letter-spacing: 3px;
+			background-color: orange;
+			color: hsl(0, 0%, 100%);
+			box-shadow: rgb(93 24 220) 0 7px 29px 0;
+		}
+		.btn-show:active {
+			letter-spacing: 3px;
+			background-color: hsl(261deg 80% 48%);
+			color: hsl(0, 0%, 100%);
+			box-shadow: rgb(93 24 220) 0 0 0 0;
+			transform: translateY(10px);
+			
+		}
+
+		/* Styles pour le bouton 'edit' */
+		.btn-edit {
+			padding: 17px 40px;
+			border-radius: 50px;
+			border: 0;
+            background-color: purple;
+			box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+			letter-spacing: 1.5px;
+			text-transform: uppercase;
+			font-size: 15px;
+			
+		}
+
+		.btn-edit:hover {
+			letter-spacing: 3px;
+			background-color: hsl(261deg 80% 48%);
+			color: hsl(0, 0%, 100%);
+			box-shadow: rgb(93 24 220) 0 7px 29px 0;
+		}
+		.btn-edit:active {
+			letter-spacing: 3px;
+			background-color: hsl(261deg 80% 48%);
+			color: hsl(0, 0%, 100%);
+			box-shadow: rgb(93 24 220) 0 0 0 0;
+			transform: translateY(10px);
+			
+		}
+		.action-buttons {
+			display: flex;
+			align-items: center;
+		}
+
+		.action-buttons a {
+			margin-right: 10px; 
+		}
+        
+	</style>
+{% endblock %}
 
 {% block body %}
-    <h1>Section index</h1>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+	    <h1>Section index</h1>
+    
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>responsable</th>
-                <th>actions</th>
+	<!-- Apply the styles from your previous table -->
+	<table class="table">
+    <a href="{{ path('app_admin_section_new') }}" class="btn btn-create custom-margin-top">Create new</a>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>responsable</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for section in sections %}
+				<tr>
+					<td>{{ section.id }}</td>
+					<td>{{ section.Name }}</td>
+					<td>
+						{% if section.responsable %}
+							{{ section.responsable.name }}
+							{# Adaptez ".name" si la propriété du responsable est différente #}
+						{% else %}
+							Pas de responsable
+						{% endif %}
+					</td>
+					<td>
+						<div class="action-buttons">
+							<a href="{{ path('app_admin_section_show', {'id': section.id}) }}" class="btn btn-show">Show</a>
+							<a href="{{ path('app_admin_section_edit', {'id': section.id}) }}" class="btn btn-edit">Edit</a>
+						</div>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="4">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-            </tr>
-        </thead>
-        <tbody>
-        {% for section in sections %}
-            <tr>
-                <td>{{ section.id }}</td>
-                <td>{{ section.Name }}</td>
-                <td>
-            {% if section.responsable %}
-                {{ section.responsable.name }} {# Adaptez ".name" si la propriété du responsable est différente #}
-            {% else %}
-                Pas de responsable
-            {% endif %}
-            </td>
-
-                <td>
-                    <a href="{{ path('app_admin_section_show', {'id': section.id}) }}">show</a>
-                    <a href="{{ path('app_admin_section_edit', {'id': section.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_admin_section_new') }}">Create new</a>
+	
 {% endblock %}

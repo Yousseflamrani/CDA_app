@@ -18,7 +18,7 @@ class Section
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\ManyToMany(targetEntity: Affaire::class, mappedBy: 'sections')]
+    #[ORM\ManyToMany(targetEntity: Affaire::class, mappedBy: 'section')]
     private Collection $affaires;
 
     #[ORM\OneToMany(mappedBy: 'section', targetEntity: User::class)]

@@ -20,6 +20,12 @@ class UserType extends AbstractType
             ->add('email')
             ->add('password')
 
+            
+            
+            ->add('plainPassword',TextType::class,[
+
+                'mapped'=>false
+            ])
             ->add('roles', ChoiceType::class, [
                 'choices'  => [
                     'Utilisateur' => 'ROLE_USER',
@@ -28,11 +34,6 @@ class UserType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true, 
-            ])
-            
-            ->add('plainPassword',TextType::class,[
-
-                'mapped'=>false
             ])
             ->add('section', EntityType::class, [
                 'class' => Section::class,

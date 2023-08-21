@@ -54,9 +54,10 @@ class Affaire
 
     #[ORM\ManyToOne(inversedBy: 'affaires')]
     private ?Responsable $responsable = null;
-
+    
     #[ORM\ManyToMany(targetEntity: Section::class, inversedBy: 'affaires')]
     private Collection $section;
+    
 
    
 

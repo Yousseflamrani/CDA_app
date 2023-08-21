@@ -24,13 +24,28 @@ class AffaireType extends AbstractType
             'class'=>User::class,
             'choice_label'=>'username',
             'multiple' => false,
-            'expanded' => true,
+            'expanded' => false,
             'required'=>true,
+            'placeholder' => 'choisir un utlisateur',
+            'attr' => ['class' => 'select2']
+
+           
         ])
             ->add('user')
             ->add('responsable')
             ->add('compte_c6')
             ->add('phase')
+            ->add('sections', EntityType::class, [
+                'class' => Section::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => false,
+                'placeholder' => 'choisir une ou plusieurs sections',
+                'attr' => ['class' => 'select2']
+            ])
+
+            
+            
             ->add('journalaffiare')
             ->add('date_de_debut')
             ->add('date_de_fin', null, [
@@ -45,6 +60,7 @@ class AffaireType extends AbstractType
                     'Ouvert' => 'ouvert',
                     'Fermer' => 'fermer',
                     'Annuler' => 'annuler',
+            
                 ],
             ])
 

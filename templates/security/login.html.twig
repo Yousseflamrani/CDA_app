@@ -1,42 +1,245 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		.login {
+			color: #999; /* Couleur grise */
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			display: block;
+			font-weight: bold;
+			font-size: x-large;
+			opacity: 0.8; /* Transparence pour le rendre encore plus clair */
+			margin-bottom: 20px; /* Ajout d'une marge inférieure */
+		}
+
+		.login-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+
+		}
+
+		.card {
+
+			min-height: 70vh;
+			width: 70vw;
+			display: flex;
+			border-radius: 10px;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+
+
+
+		}
+
+		.inputBox {
+			position: relative;
+			width: 450px;
+			margin-bottom: 20px;
+
+		}
+
+		.inputBox input {
+			width: 100%;
+			padding: 10px;
+			outline: none;
+			border: none;
+			color: #000;
+			font-size: 1em;
+			background: transparent;
+			border-left: 5px solid #000;
+			border-bottom: 2px solid #000;
+			-webkit-transition: 0.1s;
+			transition: 0.1s;
+			border-bottom-left-radius: 35px;
+
+
+		}
+
+		.inputBox span {
+			margin-top: 5px;
+			position: absolute;
+			left: 0;
+			-webkit-transform: translateY(-4px);
+			-ms-transform: translateY(-4px);
+			transform: translateY(-4px);
+			margin-left: 15px;
+			padding: 10px;
+			pointer-events: none;
+			font-size: 15px;
+			color: #000;
+			text-transform: uppercase;
+			-webkit-transition: 0.5s;
+			transition: 0.5s;
+			letter-spacing: 3px;
+			border-radius: 8px;
+		}
+
+		.inputBox input:valid~span,
+		.inputBox input:focus~span {
+			-webkit-transform: translateX(113px) translateY(-15px);
+			-ms-transform: translateX(113px) translateY(-15px);
+			transform: translateX(113px) translateY(-15px);
+			font-size: 0.8em;
+			padding: 5px 10px;
+			background: #000;
+			letter-spacing: 0.2em;
+			color: #fff;
+			border: 2px;
+		}
+
+		.inputBox input:valid,
+		.inputBox input:focus {
+			border: 2px solid #000;
+			border-radius: 8px;
+		}
+
+		.enter {
+			height: 45px;
+			width: 120px;
+			border-radius: 10px;
+			border: 2px solid #000;
+			cursor: pointer;
+			background-color: transparent;
+			-webkit-transition: 0.5s;
+			transition: 0.5s;
+			text-transform: uppercase;
+			font-size: 10px;
+			letter-spacing: 2px;
+			margin-bottom: 1em;
+		}
+
+		.enter:hover {
+			background-color: rgb(0, 0, 0);
+			color: white;
+		}
+		.password-box {
+			position: relative;
+		}
+
+		.password-toggle {
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			cursor: pointer;
+		}
+
+		.register-link {
+			margin-top: 15px;
+		}
+
+		.register-link a {
+			color: #9AC8EB;
+			text-decoration: none;
+			transition: 0.5s;
+		}
+
+		.register-link a:hover {
+			text-decoration: underline;
+		}
+
+		.forgot-password-link {
+			margin-left: 170px;
+			display: inline-block;
+		}
+
+		.forgot-password-link a {
+			color: #9AC8EB;
+			text-decoration: none;
+		}
+
+		.forgot-password-link a:hover {
+			text-decoration: underline;
+		}
+	</style>
+
+{% endblock %}
+
+
+{% block javascripts %}
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+const passwordInput = document.getElementById('inputPassword');
+const toggleIcon = document.querySelector('.password-toggle');
+
+toggleIcon.addEventListener('click', function () {
+if (passwordInput.type === 'password') {
+passwordInput.type = 'text';
+toggleIcon.classList.remove('fa-eye');
+toggleIcon.classList.add('fa-eye-slash');
+} else {
+passwordInput.type = 'password';
+toggleIcon.classList.remove('fa-eye-slash');
+toggleIcon.classList.add('fa-eye');
+}
+});
+});
+	</script>
+{% endblock %}
+
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	<div class="login-container">
+		<div class="card">
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+			<div class="login">
+			PLEASE,connectez-vous
+			</div>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+			<form method="post">
+				<div class="inputBox">
+					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" required autofocus>
+					<span>Email</span>
+				</div>
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+				<div class="inputBox password-box">
+					<input type="password" name="password" id="inputPassword" required>
+					<span>Mot de passe</span>
+					<i class="fas fa-eye password-toggle"></i>
+				</div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+				<div class="checkbox mb-3">
+					<label>
+						<input type="checkbox" name="_remember_me">
+						Souvenir de moi 
+					</label>
+					<span class="forgot-password-link">
+						<a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+					</span>
+				</div>
+
+
+				<button class="enter" type="submit">
+					Se Connecter
+				</button>
+				<div class="register-link">
+
+					<a href="{{ path('app_register') }}">
+						Pas encore inscrit ?Rejoignez-nous !</a>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
 {% endblock %}

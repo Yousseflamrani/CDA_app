@@ -33,22 +33,28 @@ class ProfileController extends AbstractController
         $user= $this->getUser();
         $form = $this->createForm(User1Type::class, $user);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $plainPassword=$form->get('plainPassword')->getData();
-            $hashPassword = $passwordHasher->hashPassword($user, $plainPassword);
-            $user->setPassword($hashPassword);
+    
+            $plainPassword = $form->get('plainPassword')->getData();
+            
+            // Check if plainPassword is not empty
+            if (!empty($plainPassword)) {
+                $hashPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashPassword);
+            }
+            
             $userRepository->save($user, true);
-
+    
             return $this->redirectToRoute('app_profile_show', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('profile/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
+    
 
    
 }

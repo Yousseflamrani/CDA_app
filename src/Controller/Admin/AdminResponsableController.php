@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Controller\Admin;
-
-
+use App\Entity\Section;
 use App\Entity\Responsable;
 use App\Form\ResponsableType;
 use App\Repository\ResponsableRepository;
