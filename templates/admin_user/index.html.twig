@@ -47,9 +47,16 @@
 
     <a href="{{ path('app_admin_user_new') }}" class="btn btn-create">Crée un nouvel utilisateur </a>
 
+
+    <form method="GET" action="{{ path('app_admin_user_index') }}" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Rechercher par username" name="username">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+    </form>
+    
+
     <table class="table">
         <thead>
-            <tr>
+            <tr>  
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
@@ -66,7 +73,7 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.section ? user.section.id : 'N/A' }}</td>
+                <td>{{ user.section ? user.section.id: 'NA' }}</td>
 
 
                 <td>

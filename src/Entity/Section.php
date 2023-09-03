@@ -16,13 +16,13 @@ class Section
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Name = null;
+    private ?string $name = null;  
 
     #[ORM\ManyToMany(targetEntity: Affaire::class, mappedBy: 'section')]
     private Collection $affaires;
 
     #[ORM\OneToMany(mappedBy: 'section', targetEntity: User::class)]
-    private Collection $user;
+    private Collection $users;  
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Responsable $responsable = null;
@@ -30,7 +30,7 @@ class Section
     public function __construct()
     {
         $this->affaires = new ArrayCollection();
-        $this->user = new ArrayCollection();
+        $this->users = new ArrayCollection();  
     }
 
     public function getId(): ?int
@@ -40,12 +40,12 @@ class Section
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;  
     }
 
-    public function setName(string $Name): static
+    public function setName(string $name): self  
     {
-        $this->Name = $Name;
+        $this->name = $name;  
 
         return $this;
     }
@@ -58,7 +58,7 @@ class Section
         return $this->affaires;
     }
 
-    public function addAffaire(Affaire $affaire): static
+    public function addAffaire(Affaire $affaire): self
     {
         if (!$this->affaires->contains($affaire)) {
             $this->affaires->add($affaire);
@@ -68,7 +68,7 @@ class Section
         return $this;
     }
 
-    public function removeAffaire(Affaire $affaire): static
+    public function removeAffaire(Affaire $affaire): self
     {
         if ($this->affaires->removeElement($affaire)) {
             $affaire->removeSection($this);
@@ -80,25 +80,25 @@ class Section
     /**
      * @return Collection<int, User>
      */
-    public function getUser(): Collection
+    public function getUsers(): Collection  
     {
-        return $this->user;
+        return $this->users;  
     }
 
-    public function addUser(User $user): static
+    public function addUser(User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
+        if (!$this->users->contains($user)) {  
+            $this->users->add($user);  
             $user->setSection($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeUser(User $user): self
     {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
+        if ($this->users->removeElement($user)) { 
+           
             if ($user->getSection() === $this) {
                 $user->setSection(null);
             }
@@ -112,16 +112,15 @@ class Section
         return $this->responsable;
     }
 
-    public function setResponsable(?Responsable $responsable): static
+    public function setResponsable(?Responsable $responsable): self
     {
         $this->responsable = $responsable;
 
         return $this;
     }
 
-    public function __toString(){
-
-        return $this->Name;
+    public function __toString(): string
+    {
+        return $this->name;  
     }
-
 }

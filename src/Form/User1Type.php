@@ -16,10 +16,10 @@ class User1Type extends AbstractType
         $builder
         ->add('username')
         ->add('email')
-        ->add('plainPassword', PasswordType::class, [  // Remplacez TextType par PasswordType
+        ->add('plainPassword', PasswordType::class, [  
             'mapped' => false,
             'required' => false,
-            'label' => 'Modiffier de mot de pass (Laisser le champ vide si vous voulez garder votre mot de pass)'
+            'label' => 'Modiffier le mot de pass (Laisser le champ vide si vous voulez garder votre mot de pass)'
         ]);
     }
 

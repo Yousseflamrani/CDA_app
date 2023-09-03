@@ -76,17 +76,55 @@
             text-align: center;
         }
 
-        .filter-form {
-        display: flex;
-        align-items: center;
-    }
+      .filter-form select, .filter-form input {
+    padding: 8px 12px;            
+    border: 1px solid #e1e1e1;    
+    border-radius: 20px;          
+    background-color: white;    
+    outline: none;                
+    transition: border-color 0.3s;  
+}
+
+.filter-form select:focus, .filter-form input:focus {
+    border-color: #007BFF;       
+}
+
+.flex-form {
+    display: flex;
+    justify-content: space-between;  
+    flex-wrap: wrap; 
+}
+
+.form-element {
+    flex: 1;  
+    margin-right: 10px;  
+}
+
+.button-group {
+
+    gap: 5px;
+    height: 50px;         
+    padding: 5px 15px;    
+    font-size: 14px;      
+    border-radius: 5px
+    
+}
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center; 
+}
+
+
 
     .form-element {
-        margin-right: 15px;
+        flex: 1;
     }
+
      button[name="reset_filter"] {
         background-color: #f44336; 
-        float: right 20px;
+        float: left 10px;
     }
     .btn-create {
     background-color: #4CAF50; /* Vert */
@@ -103,29 +141,20 @@
    
 }
  .custom-margin-top {
-     margin-bottom: 20px; /* Ajoutez la marge supérieure souhaitée */
+     margin-bottom: 20px; 
       margin-top:-10px;
         }
 
 
 /* Styles pour le bouton 'Edit' */
 .btn-edit {
- --color: #00A97F;
- --color2: rgb(10, 25, 30);
- padding: 0.8em 1.75em;
- background-color: transparent;
- border-radius: 6px;
- border: .3px solid var(--color);
- transition: .5s;
- position: relative;
- overflow: hidden;
- cursor: pointer;
- z-index: 1;
- font-weight: 300;
- font-size: 17px;
- font-family: 'Roboto', 'Segoe UI', sans-serif;
- text-transform: uppercase;
- color: var(--color);
+ background-color: orange;
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-left: 10px; /* espace entre les boutons */
 }
 .btn-edit::after, .btn-edit::before {
     content: '';
@@ -140,27 +169,13 @@
     transition: .5s ease-out;
     background-color: var(--color);
 }
-.btn-edit::before {
-    top: -50%;
-    left: -25%;
-    transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
-}
 
-.btn-edit:hover::before {
- transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
-}
-.btn-edit:hover::after {
- transform: skew(45deg) translate(-50%, -50%);
-}
 
 
 .btn-edit:hover {
-   color: var(--color2);
+  background-color: orange;
 }
-.btn-edit:active {
- filter: brightness(.7);
- transform: scale(.98);
-}
+
 
 /* Styles pour le bouton 'Show' */
 .btn-show {
@@ -184,34 +199,57 @@
 .action-buttons a {
     margin-right: 10px; /* Espacement entre les boutons */
         }
-        
 
-    
+
+.button-container {
+    display: flex;          /* Utilisation de Flexbox */
+    justify-content: space-between;  /* Espacement entre les boutons */
+    align-items: center;    /* Alignement vertical des boutons */
+}
+
+.button-container button {
+    margin: 0;  /* Réinitialiser la marge des boutons, si nécessaire */
+}     
+.select2-container .select2-selection--single {
+    height: 38px; /* Hauteur d'un champ de formulaire Bootstrap */
+    border: 1px solid #ced4da;
+    border-radius: 20px; /* Rayon d'arrondi de Bootstrap */
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: 36px;
+    padding-left: 12px; /* Espacement intérieur pour aligner avec d'autres champs */
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
+
     </style>
 {% endblock %}
 
 
-
-
-
-
-   
-    <div class="custom-form">
-     
-    {{ form_start (form, {'attr': {'class': 'filter-form'}}) }}
-        <div class="form-element">{{ form_row(form.section) }}</div>
-        <div class="form-element">{{ form_row(form.user) }}</div>
+<div class="custom-form">
+    {{ form_start(form, {'attr': {'class': 'filter-form flex-form'}}) }}
+    {% if app.user %}
+        {% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_RESPONSABLE' in app.user.roles %}
+            <div class="form-element">{{ form_row(form.section) }}</div>
+            <div class="form-element">{{ form_row(form.user) }}</div>
+        {% endif %}
+        <div class="form-element">{{ form_row(form.statut) }}</div>
         <div class="form-element">{{ form_row(form.compte_c6) }}</div>
-      
         
-        <div class="form-element"><button type="submit">Filter</button></div>
-        <div class="form-element">
-    <button type="submit" name="reset_filter" value="reset">Réinitialiser les filtres</button>
+        {% if 'ROLE_USER' in app.user.roles %}
+            <div class="form-element button-group">
+                <button type="submit">Filter</button>
+                <button type="submit" name="reset_filter" value="reset">Annuler les filtres</button>
+            </div>
+        {% endif %}
+    {% endif %}
+    
+    {{ form_end(form) }}
 </div>
 
-    {{ form_end ( form) }}
-</div>
-</div>
 <!-- Gestion des roles pour la creations des affaires -->
 {% if app.user %}
     {% if 'ROLE_ADMIN' in app.user.roles or 'ROLE_RESPONSABLE' in app.user.roles %}
@@ -230,7 +268,7 @@
 
     <!-- Tableau à droite -->
     <div class="col-md-8">
-        {# Votre tableau ici #}
+     
     </div>
 </div>
 

@@ -27,39 +27,80 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/admin/article')]
 class AdminArticleController extends AbstractController
 {
+    
     #[Route('/', name: 'app_admin_article_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, AffaireRepository $affaireRepository): Response
-    {
-        $form = $this->createForm(AffaireFilterType::class);
-        $form->handleRequest($request);
-        $search = $request->query->get('search');
+public function index(Request $request, AffaireRepository $affaireRepository, Security $security): Response
+{
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($request->request->has('reset_filter')) {  // Check if reset button was pressed
-                return $this->redirectToRoute('app_admin_article_index'); // Redirect to the same route without filters
-            }
-            
-            $data = $form->getData();
-            // Filter using the combined method
-            $affaires = $affaireRepository->filterAffaires($data['user'], $data['section'], $data['compte_c6'], $data['search'] ?? null);
+    //vérification pour s'assurer qu'une session est active
+
+    if (!$this->isGranted('ROLE_USER')) {
+        throw new AccessDeniedException('La session a expiré.');
+    }
+
+    
+
+    
+
+
+
+
+    $user = $security->getUser();
+    $role = $user->getRoles()[0]; // recuperer le premier role de l'user 
+    
+    $form = $this->createForm(AffaireFilterType::class, null, ['role' => $role]);
+    $form->handleRequest($request);
+    $search = $request->query->get('search');
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->request->has('reset_filter')) {  // Check if reset button was pressed
+            return $this->redirectToRoute('app_admin_article_index'); // Redirect to the same route without filters
+        }
+        
+        $data = $form->getData();
+
+        if ($role == 'ROLE_USER') {
+            $affaires = $affaireRepository->filterAffaires(
+                $user,
+                null,
+                $data['compte_c6'],
+                $data['search'] ?? null,
+                $data['statut'] ?? null  
+            );
         } else {
-            if ($search) {
-                $affaires = $affaireRepository->findBySearch($search);
-            } else {
+            $userFilter = $data['user'];
+            $sectionFilter = $data['section'];
+            $affaires = $affaireRepository->filterAffaires(
+                $userFilter,
+                $sectionFilter,
+                $data['compte_c6'],
+                $data['search'] ?? null,
+                $data['statut'] ?? null  
+            );
+        }
+    } else {
+        if ($search) {
+            $affaires = $affaireRepository->findBySearch($search);
+        } else {
+            if ($this->isGranted('ROLE_ADMIN')) {
                 $affaires = $affaireRepository->findAll();
+            } elseif ($this->isGranted('ROLE_RESPONSABLE')) {
+                // Si le responsable est connecté, récupérez seulement les affaires de sa section
+               // $section = $user->getSection();  // Assurez-vous que la méthode getSection() existe pour récupérer la section de l'utilisateur.
+                $affaires = $affaireRepository->findAll();
+            } else {
+                $affaires = $affaireRepository->findByUser($user);
             }
         }
-
-        return $this->render('admin_article/index.html.twig', [
-            'affaires' => $affaires,
-            'form' => $form->createView(),
-            'controller_name' => 'LookupController'
-        ]);
     }
 
 
-
-
+    return $this->render('admin_article/index.html.twig', [
+        'affaires' => $affaires,
+        'form' => $form->createView(),
+        'controller_name' => 'LookupController'
+    ]);
+}
 
 
 

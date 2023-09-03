@@ -20,6 +20,7 @@ class AffaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        ->add('title')
         ->add('user',EntityType::class,[
             'class'=>User::class,
             'choice_label'=>'username',
@@ -56,11 +57,10 @@ class AffaireType extends AbstractType
             ])
 
             ->add('statut',ChoiceType::class,[
-                'choices'=> [
-                    'Ouvert' => 'ouvert',
-                    'Fermer' => 'fermer',
-                    'Annuler' => 'annuler',
-            
+                'choices' => [
+                    'Ouvert' => Affaire::STATUT_OUVERT,
+                    'Fermer' => Affaire::STATUT_FERMER,
+                    'Annuler' => Affaire::STATUT_ANNULER,
                 ],
             ])
 

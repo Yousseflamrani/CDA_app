@@ -1,7 +1,130 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello ChartController!{% endblock %}
+
+{% block stylesheets %}
+<style>
+.statistics {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.statistic-box {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-box {
+    flex: 1;
+    padding: 20px;
+    background-color: white; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    margin: 0 10px;
+    border-radius: 10px;  // bordures arrondies
+}
+
+ #affaireStatusChart {
+    width: 115%; 
+    height: 100%; 
+    display: block;
+    margin: auto;  
+}
+#affaireSectionChart {
+    width: 80%; 
+    height: 100%; 
+    display: block;
+    margin: auto;  
+}
+
+
+.statistics-container {
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px; 
+}
+.bold-text {
+    font-weight: bold;
+}
+
+
+
+</style>
+{% endblock %}
 
 {% block body %}
-<h1>bonjour tt le monde </h1>
+<h1>Statistiques des affaires</h1>
+
+<div class="statistics-container">
+    <div class="statistics">
+        <div class="statistic-box">
+            <h2 style="font-weight: normal;">Nombre d'affaires</h2>
+            <p class="bold-text">{{ affaireCount }}</p>
+        </div>
+        <div class="statistic-box">
+            <h2 style="font-weight: normal;">Nombre d'utilisateurs</h2>
+            <p class="bold-text">{{ userCount }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="charts-container">
+
+    <div class="chart-box">
+        <h2><p class="bold-text">Statistiques par section</p></h2>
+        <canvas id="affaireSectionChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h2><p class="bold-text">Statistiques des statuts</p></h2>
+        <canvas id="affaireStatusChart"></canvas>
+    </div>
+
+</div>
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+     // Status Bar Chart
+     var ctxStatus = document.getElementById('affaireStatusChart').getContext('2d');
+     var affaireStatusChart = new Chart(ctxStatus, {
+         type: 'bar',
+         data: {
+             labels: {{ statuses | json_encode()|raw }},
+             datasets: {{ datasets | json_encode()|raw }}
+         },
+         options: {
+             scales: {
+                 y: {
+                     beginAtZero: true
+                 }
+             }
+         }
+     });
+
+    // Section Doughnut Chart
+    var ctxSection = document.getElementById('affaireSectionChart').getContext('2d');
+    var affaireSectionChart = new Chart(ctxSection, {
+        type: 'doughnut',
+        data: {
+            labels: {{ sections | json_encode()|raw }},
+            datasets: [{{ affairesBySection | json_encode()|raw }}]  
+        },
+        options: {
+            responsive: false,
+            cutout: '70%'  
+        }
+    });
+</script>
+{% endblock %}
 {% endblock %}

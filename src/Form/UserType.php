@@ -17,15 +17,17 @@ class UserType extends AbstractType
     {
         $builder
              ->add('username')
-            ->add('email')
-            ->add('password')
+            ->add('email');
+            if ($options['modify_password']) {
+                $builder->add('plainPassword', TextType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                    'label' => 'Modiffier le mot de pass (Laisser le champ vide si vous voulez garder votre mot de pass Actuel)'
+                   
+                ]);
+            }
 
-            
-            
-            ->add('plainPassword',TextType::class,[
-
-                'mapped'=>false
-            ])
+            $builder
             ->add('roles', ChoiceType::class, [
                 'choices'  => [
                     'Utilisateur' => 'ROLE_USER',
@@ -38,8 +40,10 @@ class UserType extends AbstractType
             ->add('section', EntityType::class, [
                 'class' => Section::class,
                 'choice_label' => 'name',
+                'label' => 'Section',
                 'placeholder' => 'Sélectionnez une section',
             ])
+            
             //->add('affaires')
             
         ;
@@ -49,6 +53,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'modify_password' => true, 
         ]);
     }
 }

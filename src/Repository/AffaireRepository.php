@@ -44,7 +44,13 @@ class AffaireRepository extends ServiceEntityRepository
 /**
  * @Route("/show/{id}", name="affaire_show", methods={"GET"})
  */
-public function filterAffaires(?User $user = null, ?Section $section = null, ?string $compte_c6 = null, ?string $search = null)
+public function filterAffaires(
+    ?User $user = null,
+    ?Section $section = null,
+    ?string $compte_c6 = null, 
+    ?string $search = null,
+    ?string $statut = null
+)
 {
     $qb = $this->createQueryBuilder('a');
 
@@ -70,6 +76,11 @@ public function filterAffaires(?User $user = null, ?Section $section = null, ?st
         $qb->andWhere('a.title LIKE :search')
            ->setParameter('search', '%' . $search . '%');
     }
+    
+    if ($statut) {
+        $qb->andWhere('a.statut = :statut')
+           ->setParameter('statut', $statut);
+    }
 
     return $qb->getQuery()->getResult();
 }
@@ -84,7 +95,60 @@ public function findBySearch($search)
         ->getResult();
 }
 
-   
+public function findAffairesByUser(User $user)
+{
+    return $this->createQueryBuilder('a')
+        ->andWhere('a.user = :user')
+        ->setParameter('user', $user);
+       
+}
+
+
+public function countStatut($statut)
+{
+    return $this->createQueryBuilder('a')
+        ->select('COUNT(a.id)')
+        ->andWhere('a.statut = :statut')
+        ->setParameter('statut', $statut)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+
+
+public function findByUser(User $user): array
+{
+    $qb = $this->createQueryBuilder('a')
+        ->innerJoin('a.user', 'u')
+        ->where('u = :user')
+        ->setParameter('user', $user);
+
+    return $qb->getQuery()->getResult();
+}
+
+// 
+public function findByAgentsSection($section)
+{
+    return $this->createQueryBuilder('a')
+        ->join('a.user', 'u') // Utilisez 'u' comme alias pour l'utilisateur (agent)
+        ->where('u.section = :section')
+        ->setParameter('section', $section)
+        ->getQuery()
+        ->getResult();
+}
+
+// méthode pour la chart 
+public function countBySection(string $sectionName)
+{
+    return $this->createQueryBuilder('a')
+        ->select('COUNT(a.id)')
+        ->join('a.section', 's')
+        ->where('s.name = :sectionName')
+        ->setParameter('sectionName', $sectionName)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
 
 
 

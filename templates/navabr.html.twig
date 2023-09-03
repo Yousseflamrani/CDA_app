@@ -80,7 +80,7 @@ body {
   background: none !important;
 }
 .navbar .dropdown-menu {
-  border-radius: 1px;
+  border-radius: 2px;
   border-color: #e5e5e5;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
@@ -140,6 +140,14 @@ body {
     width: 100%;
   }
 }
+.profile-dropdown {
+    margin-left: -2cm;
+}
+
+
+
+
+
 </style>
 </head> 
 <body>
@@ -151,8 +159,11 @@ body {
   <!-- Collection of nav links, forms, and other content for toggling -->
   <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
     <div class="navbar-nav">
+    {% if app.user %}
       <a href="/home" class="nav-item nav-link active">Dashboard</a>
       <a href="/admin/article" class="nav-item nav-link">liste des affaires</a>
+      {% endif %}
+
       <!-- Gestion des roles pour admin affichage de liste deroulante Admin -->
     {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
     <div class="nav-item dropdown">
@@ -165,24 +176,28 @@ body {
     </div>
 {% endif %}
 
-
+   {% if app.user and ('ROLE_RESPONSABLE' in app.user.roles or 'ROLE_USER' in app.user.roles)  %}
       <a href="/contact" class="nav-item nav-link">Contact</a>
     </div>
-   
+   {% endif %}
 
+
+ {% if app.user %}
     <div class="navbar-nav ml-auto">
-      <a href="#" class="nav-item nav-link notifications"><i class="fa fa-bell-o"></i><span class="badge">1</span></a>
-      <a href="#" class="nav-item nav-link messages"><i class="fa fa-envelope-o"></i><span class="badge">10</span></a></a>
+
       <div class="nav-item dropdown">
         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">  {{ app.user ? app.user.username|default('Invité') : 'Invité' }}
 
  <b class="caret"></b></a>
-        <div class="dropdown-menu">
-          <a href="/profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></a>
-         
-          <div class="dropdown-divider"></div>
-          <a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a></a>
+
+      <div class="dropdown-menu profile-dropdown">
+        <a href="/profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+        <div class="dropdown-divider"></div>
+    <a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Se déconnecter</a>
+</div>
+   {% endif %}
         </div>
+     
       </div>
     </div>
   </div>

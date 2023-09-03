@@ -99,8 +99,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id </th>
-                <td>{{ user.id }}</td>
+                <th>username </th>
+                <td>{{ user.username }}</td>
             </tr>
             <tr>
                 <th>Email</th>
@@ -111,9 +111,10 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
             <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
+                    <th>Password</th>
+                   
+                    <td>••••••••</td>
+                </tr>
             <tr>
                 <th>Section</th>
                 <td>{{ user.section ? user.section.name : 'N/A' }}</td>
