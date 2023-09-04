@@ -85,22 +85,19 @@ public function filterAffaires(
     return $qb->getQuery()->getResult();
 }
 
-
-public function findBySearch($search)
+public function findBySearch($search, ?User $user = null)
 {
-    return $this->createQueryBuilder('a')
-        ->andWhere('a.title LIKE :val')
-        ->setParameter('val', '%' . $search . '%')
-        ->getQuery()
-        ->getResult();
-}
+    $qb = $this->createQueryBuilder('a')
+               ->andWhere('a.title LIKE :val')
+               ->setParameter('val', '%' . $search . '%');
+    
+    if ($user && in_array('ROLE_USER', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles())&& !in_array('ROLE_RESPONSABLE', $user->getRoles())) { // Ajout d'une vérification de rôle
+        $qb->innerJoin('a.user', 'u') // Jointure pour l'entité User
+           ->andWhere('u = :user')   // Utilisez l'alias 'u' pour la condition
+           ->setParameter('user', $user);
+    }
 
-public function findAffairesByUser(User $user)
-{
-    return $this->createQueryBuilder('a')
-        ->andWhere('a.user = :user')
-        ->setParameter('user', $user);
-       
+    return $qb->getQuery()->getResult();
 }
 
 

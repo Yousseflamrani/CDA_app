@@ -38,11 +38,6 @@ public function index(Request $request, AffaireRepository $affaireRepository, Se
         throw new AccessDeniedException('La session a expiré.');
     }
 
-    
-
-    
-
-
 
 
     $user = $security->getUser();
@@ -80,8 +75,12 @@ public function index(Request $request, AffaireRepository $affaireRepository, Se
         }
     } else {
         if ($search) {
-            $affaires = $affaireRepository->findBySearch($search);
-        } else {
+            if ($this->isGranted('ROLE_USER')) {
+                $affaires = $affaireRepository->findBySearch($search, $user);
+            } else {
+                $affaires = $affaireRepository->findBySearch($search);
+            }
+        }else {
             if ($this->isGranted('ROLE_ADMIN')) {
                 $affaires = $affaireRepository->findAll();
             } elseif ($this->isGranted('ROLE_RESPONSABLE')) {

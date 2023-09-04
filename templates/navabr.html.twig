@@ -152,56 +152,56 @@ body {
 </head> 
 <body>
 <nav class="navbar navbar-expand-xl navbar-light bg-light">
-  <a href="/home" class="navbar-brand"><i class="fa fa-cube"></i>SNCF<b></b></a>
-  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <!-- Collection of nav links, forms, and other content for toggling -->
-  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-    <div class="navbar-nav">
     {% if app.user %}
-      <a href="/home" class="nav-item nav-link active">Dashboard</a>
-      <a href="/admin/article" class="nav-item nav-link">liste des affaires</a>
-      {% endif %}
+        <a href="/home" class="navbar-brand"><i class="fa fa-cube"></i>Revue Hebdo<b></b></a>
+    {% else %}
+        <span class="navbar-brand"><i class="fa fa-cube"></i>Revue Hebdo<b></b></span>
+    {% endif %}
 
-      <!-- Gestion des roles pour admin affichage de liste deroulante Admin -->
-    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin</a>
-        <div class="dropdown-menu">
-            <a href="/admin/user" class="dropdown-item"> Utilisateurs</a>
-            <a href="/admin/section" class="dropdown-item"> Sections</a>
-            <a href="/admin/responsable" class="dropdown-item">Responsables</a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+        <div class="navbar-nav">
+            {% if app.user %}
+                <a href="/home" class="nav-item nav-link active">Dashboard</a>
+                <a href="/admin/article" class="nav-item nav-link">liste des affaires</a>
+            {% endif %}
+
+            {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Admin</a>
+                    <div class="dropdown-menu">
+                        <a href="/admin/user" class="dropdown-item"> Utilisateurs</a>
+                        <a href="/admin/section" class="dropdown-item"> Sections</a>
+                        <a href="/admin/responsable" class="dropdown-item">Responsables</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if app.user and ('ROLE_RESPONSABLE' in app.user.roles or 'ROLE_USER' in app.user.roles) and 'ROLE_ADMIN' not in app.user.roles %}
+                <a href="/contact" class="nav-item nav-link">Contact</a>
+            {% endif %}
         </div>
+        
+        {% if app.user %}
+            <div class="navbar-nav ml-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">
+                        {{ app.user ? app.user.username|default('Invité') : 'Invité' }} <b class="caret"></b>
+                    </a>
+                    <div class="dropdown-menu profile-dropdown">
+                        <a href="/profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Se déconnecter</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-{% endif %}
-
-   {% if app.user and ('ROLE_RESPONSABLE' in app.user.roles or 'ROLE_USER' in app.user.roles)  %}
-      <a href="/contact" class="nav-item nav-link">Contact</a>
-    </div>
-   {% endif %}
-
-
- {% if app.user %}
-    <div class="navbar-nav ml-auto">
-
-      <div class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">  {{ app.user ? app.user.username|default('Invité') : 'Invité' }}
-
- <b class="caret"></b></a>
-
-      <div class="dropdown-menu profile-dropdown">
-        <a href="/profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
-        <div class="dropdown-divider"></div>
-    <a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Se déconnecter</a>
-</div>
-   {% endif %}
-        </div>
-     
-      </div>
-    </div>
-  </div>
 </nav>
+
 </body>
 </html>                            
 
