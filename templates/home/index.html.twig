@@ -56,6 +56,13 @@
 .bold-text {
     font-weight: bold;
 }
+ .style-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
 
 
 
@@ -63,7 +70,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>Statistiques des affaires</h1>
+<h1 class="style-title">Statistiques des affaires</h1>
 
 <div class="statistics-container">
     <div class="statistics">
@@ -81,12 +88,12 @@
 <div class="charts-container">
 
     <div class="chart-box">
-        <h2><p class="bold-text">Statistiques par section</p></h2>
+        <h2><p class="bold-text">Nombre d'affaire par section</p></h2>
         <canvas id="affaireSectionChart"></canvas>
     </div>
 
     <div class="chart-box">
-        <h2><p class="bold-text">Statistiques des statuts</p></h2>
+        <h2><p class="bold-text">Statuts des affaires</p></h2>
         <canvas id="affaireStatusChart"></canvas>
     </div>
 

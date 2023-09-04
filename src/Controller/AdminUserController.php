@@ -36,8 +36,9 @@ class AdminUserController extends AbstractController
 
     {
         return $this->render('admin_user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
+        
     }
     }
     #[Route('/new', name: 'app_admin_user_new', methods: ['GET', 'POST'])]

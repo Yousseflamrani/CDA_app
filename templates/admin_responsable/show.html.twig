@@ -82,16 +82,20 @@
                     <td>{{ responsable.id }}</td>
                 </tr>
                 <tr>
-                    <th>Name</th>
+                    <th>Nom</th>
                     <td>{{ responsable.name }}</td>
+                </tr>
+                <tr>
+                    <th>Section</th>
+                    <td>{{ responsable.section ? responsable.section.name : '' }}</td>
                 </tr>
                
             </tbody>
         </table>
 
         <div class="text-center">
-            <a href="{{ path('app_admin_responsable_index') }}" class="btn-link">Back to list</a>
-            <a href="{{ path('app_admin_responsable_edit', {'id': responsable.id}) }}" class="btn-link">Edit</a>
+            <a href="{{ path('app_admin_responsable_index') }}" class="btn-link">Revenir en arrière</a>
+            <a href="{{ path('app_admin_responsable_edit', {'id': responsable.id}) }}" class="btn-link">Modifier</a>
         </div>
         <div class="text-center">
             {{ include('admin_responsable/_delete_form.html.twig') }}

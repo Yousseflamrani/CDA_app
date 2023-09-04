@@ -261,8 +261,8 @@
     <!-- Barre de recherche à gauche -->
     <div class="col-md-4">
         <form class="d-flex" role="search" action="{{path('app_admin_article_index')}}" method="GET">
-            <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" name="search" type="search" placeholder="Chercher avec le titre " aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Chercher</button>
         </form>
     </div>
 
@@ -277,16 +277,16 @@
         <thead>
             <tr>
                 
-                <th>Title</th>
+                <th>Titre</th>
                 <th>Compte_c6</th>
                 <th>Phase</th>
                 <th>Section</th>
-                <th>Date_de_debut</th>
-                <th>Date_de_fin</th>
+                <th>Date de debut</th>
+                <th>Date de fin</th>
                 <th>Echeance</th>
-                <th>journal d'affaire</th>
+                <th>commentaire</th>
                 <th>statut</th>
-                 <th>users</th>
+                 <th>utilisateurs</th>
                 <th>actions</th>
                 
             </tr>
@@ -320,8 +320,8 @@
                 
                 <td>
                     <div class="action-buttons">
-                        <a href="{{ path('app_admin_article_show', {id: affaire.id}) }}" class="btn btn-show">Show</a>
-                        <a href="{{ path('app_admin_article_edit', {id: affaire.id}) }}" class="btn btn-edit">Edit</a>
+                        <a href="{{ path('app_admin_article_show', {id: affaire.id}) }}" class="btn btn-show">Détail</a>
+                        <a href="{{ path('app_admin_article_edit', {id: affaire.id}) }}" class="btn btn-edit">Modifier</a>
                     </div>
                 </td
                     </tr>
