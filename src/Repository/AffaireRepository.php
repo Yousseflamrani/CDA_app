@@ -91,9 +91,9 @@ public function findBySearch($search, ?User $user = null)
                ->andWhere('a.title LIKE :val')
                ->setParameter('val', '%' . $search . '%');
     
-    if ($user && in_array('ROLE_USER', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles())&& !in_array('ROLE_RESPONSABLE', $user->getRoles())) { // Ajout d'une vérification de rôle
-        $qb->innerJoin('a.user', 'u') // Jointure pour l'entité User
-           ->andWhere('u = :user')   // Utilisez l'alias 'u' pour la condition
+    if ($user && in_array('ROLE_USER', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles())&& !in_array('ROLE_RESPONSABLE', $user->getRoles())) { 
+        $qb->innerJoin('a.user', 'u') 
+           ->andWhere('u = :user')   
            ->setParameter('user', $user);
     }
 
