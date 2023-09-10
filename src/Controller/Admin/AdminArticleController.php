@@ -21,13 +21,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use App\Service\SessionManagementService;
 
 
 
 #[Route('/admin/article')]
 class AdminArticleController extends AbstractController
+
 {
+
     
+
     #[Route('/', name: 'app_admin_article_index', methods: ['GET', 'POST'])]
 public function index(Request $request, AffaireRepository $affaireRepository, Security $security): Response
 {
@@ -37,6 +41,8 @@ public function index(Request $request, AffaireRepository $affaireRepository, Se
     if (!$this->isGranted('ROLE_USER')) {
         throw new AccessDeniedException('La session a expiré.');
     }
+
+    
 
 
 

@@ -6,12 +6,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AffaireRepository;
 use App\Repository\UserRepository;
+use App\Service\SessionManagementService;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
     public function index(AffaireRepository $affaireRepository, UserRepository $userRepository): Response
     {
+
+
+       
+
+
         //BarChart
         $statuses = ['ouvert', 'fermer', 'annuler'];
         $backgroundColors = ['rgb(255, 99, 132,0.7)', 'rgb(54, 162, 235,0.7)', 'rgb(75, 192, 192,0.7)'];
