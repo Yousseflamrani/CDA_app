@@ -44,8 +44,6 @@ public function index(Request $request, AffaireRepository $affaireRepository, Se
 
     
 
-
-
     $user = $security->getUser();
     $role = $user->getRoles()[0]; // recuperer le premier role de l'user 
     
