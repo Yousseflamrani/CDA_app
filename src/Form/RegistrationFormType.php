@@ -40,7 +40,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Regex([
                         'pattern' => '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,}$/',
-                        'message' => 'Votre mot de pass doit contenire au mois une majuscule, une miniscule, un chiffre et un characrére special .',
+                        'message' => 'Votre mot de pass doit contenir au mois une majuscule, une miniscule, un chiffre et un characrére special .',
                     ]),
                 ],
             ])
