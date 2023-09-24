@@ -21,6 +21,7 @@ class basiqtestPhpTes extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/admin/article/new');
+        
 
        // $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseRedirects(); 
